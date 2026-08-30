@@ -8,6 +8,19 @@ These files are **not** on the live product website.
 
 ---
 
+## New: 3 versions of the Sky Ledger landing
+
+Your original, then three distinct layouts in the same palette.
+
+| Version | Open JPEG | GitHub page |
+|---|---|---|
+| Original (the one you sent) | [v0-original-reference.jpg](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/v0-original-reference.jpg) | [view](https://github.com/Cobra-bit-prog/agent-control-visuals/blob/main/design/v0-original-reference.jpg) |
+| V1 — Check before send (split + dashboard) | [v1-check-before-send.jpg](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/v1-check-before-send.jpg) | [view](https://github.com/Cobra-bit-prog/agent-control-visuals/blob/main/design/v1-check-before-send.jpg) |
+| V2 — You decide (photo first) | [v2-you-decide.jpg](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/v2-you-decide.jpg) | [view](https://github.com/Cobra-bit-prog/agent-control-visuals/blob/main/design/v2-you-decide.jpg) |
+| V3 — Control room (product as hero) | [v3-control-room.jpg](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/v3-control-room.jpg) | [view](https://github.com/Cobra-bit-prog/agent-control-visuals/blob/main/design/v3-control-room.jpg) |
+
+---
+
 ## 1. Design proposals (new look)
 
 | # | Open JPEG | GitHub page |
