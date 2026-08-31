@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Control — what we will sell</title>
+  <style>
+    :root {
+      --sky: #f3f6fb;
+      --paper: #ffffff;
+      --navy: #12263f;
+      --muted: #5b6b80;
+      --line: #e4ebf3;
+      --coral: #e36a4a;
+      --coral-d: #c95438;
+      --mint: #e7f6ee;
+      --mint-t: #1f7a4c;
+      --warn: #fff4e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: radial-gradient(1200px 500px at 80% -10%, #fff3ec 0%, transparent 50%), var(--sky);
+      color: var(--navy);
+      line-height: 1.45;
+    }
+    a { color: var(--coral-d); }
+    header, footer, main { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 20px;
+    }
+    .brand { display: flex; gap: 10px; align-items: center; font-weight: 700; }
+    .shield {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 14px;
+    }
+    .sandbox {
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--line); background: #fff;
+      padding: 6px 10px; border-radius: 999px;
+    }
+    h1 { font-size: clamp(32px, 5vw, 48px); letter-spacing: -.03em; line-height: 1.1; margin: 8px 0 12px; }
+    .lede { font-size: 18px; color: var(--muted); max-width: 38rem; }
+    .hero {
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 28px; padding: 12px 0 36px;
+    }
+    @media (max-width: 800px) { .hero { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+      padding: 20px; box-shadow: 0 12px 40px rgba(18,38,63,.06);
+    }
+    .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; }
+    .ok { background: var(--mint); color: var(--mint-t); }
+    .next { background: #ffe8e1; color: var(--coral-d); }
+    .later { background: #eef2f7; color: #44556b; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; font-size: 12px; color: var(--muted); font-weight: 600; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+    td { padding: 11px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    h2 { font-size: 22px; letter-spacing: -.02em; margin: 28px 0 10px; }
+    .cta {
+      display: inline-block; background: var(--coral); color: #fff; text-decoration: none;
+      padding: 12px 18px; border-radius: 999px; font-weight: 650; margin-right: 8px;
+    }
+    .cta2 {
+      display: inline-block; background: #fff; color: var(--navy); text-decoration: none;
+      padding: 11px 18px; border-radius: 999px; font-weight: 650; border: 1px solid var(--line);
+    }
+    .note { font-size: 13px; color: var(--muted); }
+    footer { padding: 40px 20px 60px; color: var(--muted); font-size: 13px; }
+    ul { margin: 8px 0; padding-left: 18px; color: var(--muted); }
+    li { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="shield">AC</span> Agent Control</div>
+    <span class="sandbox">Sandbox · not the live site</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="pill next">What we will sell</p>
+        <h1>Your agent waits.<br>You decide.</h1>
+        <p class="lede">
+          A quiet policy layer for wallets that AI agents can spend from.
+          You keep the keys. We answer yes, no, or <em>hold for you</em> before anything signs.
+        </p>
+        <p style="margin-top:22px">
+          <a class="cta" href="inbox.html">Open the approval inbox prototype</a>
+          <a class="cta2" href="build.html">V1 build sequence</a>
+        </p>
+        <p class="note">This page is a sales draft. It is not deployed on agent-guard.vercel.app.</p>
+      </div>
+      <aside class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong>Treasury bot</strong>
+          <span class="pill next">Waiting for you</span>
+        </div>
+        <p style="margin:14px 0 4px;color:var(--muted);font-size:13px">Paused transfer</p>
+        <div style="font-size:36px;font-weight:700;letter-spacing:-.03em">$2,400</div>
+        <p class="note">to a first-time address · over the $500 single-send cap</p>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <span class="cta" style="padding:8px 14px;font-size:14px">Allow once</span>
+          <span class="cta2" style="padding:7px 14px;font-size:14px">Block</span>
+        </div>
+      </aside>
+    </section>
+
+    <h2>Available now</h2>
+    <p class="note">These already work in the product. Sell them without apology.</p>
+    <div class="card" style="padding:0;overflow:auto">
+      <table>
+        <thead><tr><th>Offer</th><th>What the customer gets</th><th>Honest limit</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Pre-sign check</strong><br><span class="pill ok">Live</span></td>
+            <td>Agent must call us before it signs. We return allow, alert, or abort.</td>
+            <td>Only if the agent is wired to the hook.</td>
+          </tr>
+          <tr>
+            <td><strong>Caps & lists</strong><br><span class="pill ok">Live</span></td>
+            <td>Daily cap, max size, hourly velocity, allow / deny destinations.</td>
+            <td>Unknown address today is an instant block, not a hold.</td>
+          </tr>
+          <tr>
+            <td><strong>Console + pause</strong><br><span class="pill ok">Live</span></td>
+            <td>Enroll Base / Ethereum / Solana wallets. Pause the agent. Audit of checks.</td>
+            <td>On-chain history is real native transfers at enroll/scan — not a 24/7 poller.</td>
+          </tr>
+          <tr>
+            <td><strong>3-day trial</strong><br><span class="pill ok">Live</span></td>
+            <td>Full product for three days, then Starter / Pro / Team.</td>
+            <td>Plan change is recorded. Card checkout is not live yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>What we will sell next</h2>
+    <p class="note">The sentence on the door. This is the product in the mock you liked.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="pill next">V1 — flagship</span>
+        <h3 style="margin:10px 0 6px">Approval inbox</h3>
+        <p class="note">When a send is off-policy, the agent <strong>waits</strong>. You get a card: amount, destination, why. You tap Allow once, Always allow this address, or Block.</p>
+        <ul>
+          <li>Hold, not only abort</li>
+          <li>Agent polls until you decide (or timeout)</li>
+          <li>One inbox in the console — no Slack yet</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="pill later">V1.1 — why people try</span>
+        <h3 style="margin:10px 0 6px">Ghost audit</h3>
+        <p class="note">Paste a live wallet. We replay last week against a default pack and show what we would have paused. No agent code required to see value.</p>
+      </div>
+      <div class="card">
+        <span class="pill later">Then</span>
+        <h3 style="margin:10px 0 6px">Human notify</h3>
+        <p class="note">One channel done well: email or Telegram with the same Allow / Block. Operators will not open a dashboard at 23:00.</p>
+      </div>
+      <div class="card">
+        <span class="pill later">Then</span>
+        <h3 style="margin:10px 0 6px">Policy packs + first-time lock</h3>
+        <p class="note">Treasury / research / payroll presets. Any new address holds until you say yes. This is the rule that stops most drain stories.</p>
+      </div>
+    </div>
+
+    <h2>Add-on services (how this becomes a business)</h2>
+    <div class="card" style="padding:0;overflow:auto">
+      <table>
+        <thead><tr><th>Service</th><th>Buyer</th><th>Why they pay extra</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Safety layer inside their agent (API + MCP)</td>
+            <td>Agent studios</td>
+            <td>They sell an “AI employee”; you are the leash. Per agent / per check.</td>
+          </tr>
+          <tr>
+            <td>Policy workshop (90 min)</td>
+            <td>Non-technical operators</td>
+            <td>Enroll wallets, pick a pack, wire the hook. Converts trial → Team.</td>
+          </tr>
+          <tr>
+            <td>Evidence pack for accountants / insurers</td>
+            <td>Finance, family office</td>
+            <td>You are not insurance. You sell the log they will be asked for.</td>
+          </tr>
+          <tr>
+            <td>Watchdog poller</td>
+            <td>Anyone who cannot put the hook in the agent</td>
+            <td>Paid extra. Honest: the hook is the real protection; this catches silent sends.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How to say it in one breath</h2>
+    <div class="card">
+      <p style="font-size:18px;margin:0">
+        “Paste the wallet. In 30 seconds we show what we would have paused last week.
+        If that list is empty, you don’t need us. If it isn’t, your agent must ask before it signs.”
+      </p>
+    </div>
+
+    <h2>What we will not sell</h2>
+    <ul>
+      <li>Custody, key holding, or freezing funds on-chain</li>
+      <li>A general portfolio tracker or block explorer</li>
+      <li>Invented social proof (“hundreds of teams”)</li>
+    </ul>
+  </main>
+  <footer>
+    Agent Control sandbox · 31 Aug 2026 · not affiliated with Base, Ethereum, or Solana ·
+    <a href="https://github.com/Cobra-bit-prog/agent-control-visuals">image & sandbox repo</a>
+  </footer>
+</body>
+</html>

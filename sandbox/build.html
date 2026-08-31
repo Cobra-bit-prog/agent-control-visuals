@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Approval inbox V1 — build sequence</title>
+  <style>
+    :root { --sky:#f3f6fb; --navy:#12263f; --muted:#5b6b80; --line:#e4ebf3; --coral:#e36a4a; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:var(--sky); color:var(--navy); line-height:1.5; }
+    a { color:#c95438; }
+    header, main, footer { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:20px; }
+    .tag { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); background:#fff; padding:6px 10px; border-radius:999px; }
+    h1 { font-size:32px; letter-spacing:-.03em; margin:8px 0; }
+    h2 { font-size:20px; margin:28px 0 8px; }
+    .card { background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px 20px; margin:12px 0; box-shadow:0 8px 24px rgba(18,38,63,.05); }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:13px; }
+    pre { background:#12263f; color:#e8eef6; padding:14px; border-radius:12px; overflow:auto; }
+    ol.seq { padding-left: 22px; }
+    ol.seq li { margin: 8px 0; }
+    .muted { color: var(--muted); }
+    .pill { font-size:12px; font-weight:650; background:#ffe8e1; color:#c95438; padding:2px 8px; border-radius:999px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    td, th { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+    footer { padding: 28px 20px 50px; color:var(--muted); font-size:13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Agent Control</strong>
+    <div>
+      <a href="index.html">What we sell</a> ·
+      <a href="inbox.html">Inbox prototype</a>
+      <span class="tag">Sandbox · do not ship yet</span>
+    </div>
+  </header>
+  <main>
+    <p class="pill">Internal build sequence</p>
+    <h1>V1 approval inbox</h1>
+    <p class="muted">Plan only. No production files were changed. Do not merge this until you explicitly ask to implement it on the website.</p>
+
+    <div class="card">
+      <strong>V1 in one sentence.</strong>
+      <p>Today a bad send is an instant <code>block</code>. V1 adds <code>hold</code>: the agent must not sign, a row appears in an inbox, and a human taps Allow once / Always allow this address / Block.</p>
+    </div>
+
+    <h2>In scope</h2>
+    <ul>
+      <li>New decision: <code>hold</code> (plus existing allow / alert / block)</li>
+      <li>Poll endpoint so the agent can wait on Vercel (no long-lived socket)</li>
+      <li>One inbox screen in the signed-in app</li>
+      <li>Timeout: 10 minutes → treat as block</li>
+      <li>Pause and denylist still <em>block immediately</em> (no hold)</li>
+    </ul>
+
+    <h2>Out of scope for V1</h2>
+    <ul>
+      <li>Slack / email / Telegram send</li>
+      <li>24/7 chain poller</li>
+      <li>Token (USDC) history</li>
+      <li>Landing-page redesign</li>
+      <li>Stripe</li>
+      <li>Multi-approver roles</li>
+    </ul>
+
+    <h2>How the agent talks to us</h2>
+    <pre>POST /api/v1/check
+→ { decision: "hold", must_abort: true, approval_id, poll_url, poll_after_ms: 2000 }
+
+GET  /api/v1/approvals/:id   (same Bearer key)
+→ still hold  { decision: "hold", must_abort: true }
+→ approved    { decision: "allow", must_abort: false }
+→ denied/exp  { decision: "block", must_abort: true }</pre>
+    <p class="muted"><code>must_abort: true</code> stays true on hold so old agents that only read that flag still refuse to sign. New agents also poll.</p>
+
+    <h2>When we hold vs block</h2>
+    <div class="card" style="padding:0;overflow:auto">
+      <table>
+        <tr><th>Situation</th><th>V1</th></tr>
+        <tr><td>Agent paused or trial expired</td><td>block (unchanged)</td></tr>
+        <tr><td>Destination on denylist</td><td>block (unchanged)</td></tr>
+        <tr><td>Unknown destination (allowlist empty or miss)</td><td><strong>hold</strong></td></tr>
+        <tr><td>Over max tx or daily cap</td><td><strong>hold</strong></td></tr>
+        <tr><td>Hourly velocity</td><td><strong>hold</strong></td></tr>
+        <tr><td>Above alert threshold only</td><td>alert + allow (unchanged)</td></tr>
+        <tr><td>Within policy</td><td>allow (unchanged)</td></tr>
+      </table>
+    </div>
+
+    <h2>Sequence (when you say “build it”)</h2>
+    <ol class="seq">
+      <li><strong>Schema.</strong> New migration <code>0005_approvals.sql</code>: table <code>pending_approvals</code> (<code>id, user_id, agent_id, to_address, value_usd, reasons jsonb, status, expires_at, decided_by, decided_at</code>). Status: <code>hold | allow | always | block | expired</code>.</li>
+      <li><strong>Policy.</strong> Extend <code>src/lib/policy.ts</code> verdict with <code>hold</code>. Do not silently change pause/denylist.</li>
+      <li><strong>Check path.</strong> In <code>src/lib/server/intent.ts</code>, if verdict is hold: insert approval row, return <code>decision: "hold"</code>, still write a <code>presign</code> transaction with status <code>held</code>. Do not mark the agent critical until timeout or Block.</li>
+      <li><strong>Poll route.</strong> New <code>src/routes/api/v1/approvals.$id.ts</code>. Same API key as check. Expire rows on read if <code>now > expires_at</code>.</li>
+      <li><strong>Operator actions.</strong> Server functions: <code>listApprovals</code>, <code>decideApproval</code>. Always allow → append address to that agent’s allowlist, then allow this id.</li>
+      <li><strong>UI.</strong> New signed-in page <code>/inbox</code> (not the public landing). Three buttons only. Badge on nav with open count. No marketing copy.</li>
+      <li><strong>MCP.</strong> Document that <code>check_transfer</code> may return hold; add <code>get_approval</code> tool. Old agents that ignore hold still see <code>must_abort: true</code>.</li>
+      <li><strong>Tests.</strong> Unit: hold vs block matrix. Integration: check → poll hold → allow once → poll allow. Timeout path. Allowlist append. Pause still blocks.</li>
+      <li><strong>Do not</strong> change <code>src/routes/index.tsx</code> (landing) in V1 unless you later ask for the Sky Ledger design.</li>
+    </ol>
+
+    <h2>Files that would be touched later — not touched now</h2>
+    <pre>migrations/0005_approvals.sql          (new)
+src/lib/policy.ts
+src/lib/server/intent.ts
+src/lib/server/guard.ts
+src/routes/api/v1/check.ts             (response shape only)
+src/routes/api/v1/approvals.$id.ts     (new)
+src/routes/api/v1/mcp.ts
+src/routes/_app/inbox.tsx              (new)
+src/routes/_app.tsx                    (nav badge)
+tests/policy.test.ts
+tests/intent-hold.test.ts              (new)</pre>
+
+    <h2>Definition of done</h2>
+    <ul>
+      <li>A live agent hitting an unknown address gets <code>hold</code>, not a silent abort with no next step.</li>
+      <li>Operator can clear it in under 10 seconds from <code>/inbox</code>.</li>
+      <li>Always-allow means the next send to that address is <code>allow</code> without a human.</li>
+      <li>Landing page, billing, and chain ingest behave exactly as today.</li>
+      <li>Tests for hold / allow / block / timeout are green.</li>
+    </ul>
+
+    <h2>Estimate</h2>
+    <p>One focused build: schema + API + inbox UI + tests. No redesign. No deploy until you approve a review of the diff.</p>
+  </main>
+  <footer>
+    Sandbox documents only · 31 Aug 2026 · production website not modified
+  </footer>
+</body>
+</html>
