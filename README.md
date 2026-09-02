@@ -51,3 +51,19 @@ Your original, then three distinct layouts in the same palette.
 | Agent detail | [05-agent-detail.jpg](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/product/05-agent-detail.jpg) | [view](https://github.com/Cobra-bit-prog/agent-control-visuals/blob/main/product/05-agent-detail.jpg) |
 | Login | [06-login.jpg](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/product/06-login.jpg) | [view](https://github.com/Cobra-bit-prog/agent-control-visuals/blob/main/product/06-login.jpg) |
 | Billing | [07-billing.jpg](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/product/07-billing.jpg) | [view](https://github.com/Cobra-bit-prog/agent-control-visuals/blob/main/product/07-billing.jpg) |
+
+---
+
+## Backup 2026-09-02 (pre Sky Operator)
+
+Rollback tags live on the product repos. HTML snapshots: [backups/2026-09-02/](backups/2026-09-02/).
+
+| What | Open |
+|---|---|
+| A+B merged mock (chosen direction) | [ab-merged-sky-operator.png](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/ab-merged-sky-operator.png) |
+| Proposal A | [proposal-a-sky-ledger-refined.png](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/proposal-a-sky-ledger-refined.png) |
+| Proposal B | [proposal-b-night-operator.png](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/proposal-b-night-operator.png) |
+| Proposal C | [proposal-c-warm-ledger.png](https://raw.githubusercontent.com/Cobra-bit-prog/agent-control-visuals/main/design/proposal-c-warm-ledger.png) |
+
+Production rollback: tag `backup-pre-sky-operator-2026-09-02` on `Cobra-bit-prog/agent-guard`.
+Lab rollback: tag `backup-pre-ab-merge-2026-09-02` on `Cobra-bit-prog/agent-control-lab`.
